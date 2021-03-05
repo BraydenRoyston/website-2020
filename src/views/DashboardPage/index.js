@@ -12,6 +12,8 @@ import styles from "./styles.module.css";
 import { getJwt, getEmailFromJwt, getNameFromJwt, getRoleFromJwt } from "../../utils/Cognito/index.js";
 import { getApplication } from "../../utils/API/index.js";
 
+import jwtDecode from "jwt-decode";
+
 const applicationDeadline = new Date(
   process.env.REACT_APP_APPLICATION_DEADLINE
 );
@@ -20,6 +22,7 @@ const today = new Date();
 export default class DashboardPage extends Component {
   constructor(props) {
     super(props);
+    console.log(jwtDecode(getJwt()));
     this.state = {
       status: undefined,
       buttonStatus: undefined,

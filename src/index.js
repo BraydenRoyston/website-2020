@@ -10,6 +10,7 @@ import "bootstrap/dist/css/bootstrap-reboot.css";
 import LoginPage from "./views/LoginPage";
 import RegisterPage from "./views/RegisterPage";
 import ApplicationPage from "./views/ApplicationPage";
+import ApplicationView from "./views/ApplicationViewPage";
 import NotFound from "./views/NotFound";
 import ForgotPasswordPageSend from "./views/ForgotPasswordPageSend";
 import ForgotPasswordPageInput from "./views/ForgotPasswordPageInput";
@@ -39,6 +40,7 @@ const routing = (
       />
       <Route path="/dashboard" component={DashboardPage} />
       <Route path="/application" component={ApplicationPage} />
+      <Route path="/application/:id" component={ApplicationView} />
       <Route path="/termsandconditions" component={TermsPage} />
       <Route component={NotFound} />
     </Switch>
