@@ -13,7 +13,7 @@ import {
     streams,
   } from "../../assets/data";
 
-import { getEmailFromJwt, getJwt } from "../../utils/Cognito/index.js";
+import { getEmailFromJwt, getJwt, getRoleFromJwt } from "../../utils/Cognito/index.js";
 
 import jwtDecode from "jwt-decode";
 
@@ -25,7 +25,7 @@ import {
 } from "../../utils/API/index.js";
 import { useParams } from "react-router-dom";
 
-export default class ApplicationView extends Component {
+export default class ApplicationViewPage extends Component {
     constructor(props) {
         super(props);
         var jwt = getJwt();
@@ -38,11 +38,11 @@ export default class ApplicationView extends Component {
             });
         }
         // handle users who are not execs
-        if (getRoleFromJwt() != "exec") {
-            this.props.history.push({
-              pathname: "/dashboard",
-            });
-        }
+        // if (getRoleFromJwt() != "exec") {
+        //     this.props.history.push({
+        //       pathname: "/dashboard",
+        //     });
+        // }
     }
         
     componentDidMount = () => {
