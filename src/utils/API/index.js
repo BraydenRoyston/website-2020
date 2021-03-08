@@ -76,7 +76,7 @@ export const submitApplication = (application, onSuccess, onFailure) => {
       application: application,
     }),
   };
-
+  
   fetch(
     proxyurl + endpoint + "/applications/application/submit",
     requestOptions

@@ -15,6 +15,8 @@ import {
 
 import { getEmailFromJwt, getJwt, getRoleFromJwt } from "../../utils/Cognito/index.js";
 
+import styles from "./styles.module.css";
+
 import jwtDecode from "jwt-decode";
 
 import {
@@ -30,6 +32,12 @@ export default class ApplicationViewPage extends Component {
         super(props);
         var jwt = getJwt();
         console.log(jwtDecode(jwt));
+
+        this.state = {
+            err: false,
+            errMessage: "",
+            id: "",
+        };
         
         // handle users who are not logged in
         if (!jwt) {
@@ -44,22 +52,25 @@ export default class ApplicationViewPage extends Component {
         //     });
         // }
     }
-        
     componentDidMount = () => {
         const url_split = (window.location.href).split("application/");
         const id = url_split[1];
-        console.log(id);
-        console.log(getEmailFromJwt());
+        this.setState({
+            id: id,
+        });
         getApplication(
             id,
             (data) => {
             if (data) {
                 console.log('in data');
+                console.log(data);
                 this.setState({
+                first_name: data.first_name,
+                last_name: data.last_name,
                 submitted: data.submitted,
                 phone_number: data.phone_number,
                 birth_date: data.birth_date,
-                gender: data.gender,
+                gender: data.Gender,
                 degree: data.degree,
                 study_year: data.study_year,
                 github_url: data.github_url,
@@ -70,7 +81,7 @@ export default class ApplicationViewPage extends Component {
                 num_hackathons: data.num_hackathons,
                 why_goldenhack: data.why_goldenhack,
                 how_heard: data.how_heard,
-    
+                
                 // if this field doesn't exist in the application then set it to an
                 // empty array instead of just null
                 school: data.school ?? [],
@@ -106,19 +117,61 @@ export default class ApplicationViewPage extends Component {
                     num_hackathons: "",
                     how_heard: "",
                     why_goldenhack: "",
-        
                     loadComplete: true,
                 });
             }
         );
+        console.log(this.state.study_year);
     };
     
 
     render() {
         return (
-            <div>
-                Hello World
+            <div className={styles.container}>
+                <div className={styles.title}>
+                    <p>Querying for application id: {this.state.id}</p>
+                </div>
+                <div className={styles.innerContainer}>
+                    <div className={styles.dataCard}>
+                        <p>Name: {this.state.first_name} {this.state.last_name}</p>
+                        <p>Gender: {this.state.gender}</p>
+                        <p>Birth Date: {this.state.birth_date}</p>
+                        <p>Ethnicity: {this.state.ethnicity}</p>
+                        <p>Number of Past Hackathons: {this.state.num_hackathons}</p>
+                    </div>
+                    <div className={styles.dataCard}>
+                        <p>School: {this.state.school}</p>
+                        <p>Study Year: {this.state.study_year}</p>
+                        <p>Degree: {this.state.degree}</p>
+                        <p>Next Co-op Term: {this.state.coop_terms}</p>
+                    </div>
+
+                    <div className={styles.dataCard}>
+                        <p>Resume: {this.state.link_to_resume}</p>
+                        <p>Github: {this.state.github_url}</p>
+                        <p>Personal: {this.state.personal_url}</p>
+                        <p>Dribble: {this.state.dribbble_url}</p>
+                    </div>
+                    <div className={styles.dataCard}>
+                        <p>RSVP Status: {this.state.school}</p>
+                        <p>Resume: {this.state.link_to_resume}</p>
+                        <p>Job Search Goal: {this.state.study_year}</p>
+                        <p>Shirt size: {this.state.degree}</p>
+                        <p>Dietary Restrictions: {this.state.link_to_resume}</p>
+                    </div>
+                </div>
+                <div className={styles.dataCard}>
+                    <p>Question 1</p>
+                    <p></p>
+                    <p>Question 2</p>
+                    <p></p>
+                    <p>Question 3</p>
+                    <p></p>
+                </div>
             </div>
+            
+
+
         )
     }
 
