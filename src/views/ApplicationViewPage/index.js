@@ -3,13 +3,15 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 
 import styles from "./styles.module.css";
 
-import { getJwt } from "../../utils/Cognito/index.js";
+import { getJwt, getRoleFromJwt } from "../../utils/Cognito/index.js";
+import jwtDecode from "jwt-decode";
 import { getApplication } from "../../utils/API/index.js";
 
 export default class ApplicationViewPage extends Component {
   constructor(props) {
     super(props);
     var jwt = getJwt();
+    console.log(jwtDecode(jwt));
     var dataRetrieved = false;
 
     this.state = {
@@ -27,11 +29,11 @@ export default class ApplicationViewPage extends Component {
       });
     }
     // handle users who are not execs
-    // if (getRoleFromJwt() != "exec") {
-    //     this.props.history.push({
-    //       pathname: "/dashboard",
-    //     });
-    // }
+    if (getRoleFromJwt() != "exec") {
+        this.props.history.push({
+          pathname: "/dashboard",
+        });
+    }
   }
   componentDidMount = () => {
     const url_split = window.location.href.split("application/");
@@ -143,18 +145,14 @@ export default class ApplicationViewPage extends Component {
             </div>
           </div>
           <div className={styles.dataCard}>
-            <p>Question 1</p>
-            <p></p>
-            <p>Question 2</p>
-            <p></p>
-            <p>Question 3</p>
-            <p></p>
+            <p>Why Goldenhack?</p>
+            <p>{this.state.why_goldenhack}</p>
           </div>
 
           <h1>Raw Hacker Data</h1>
           <ul>
             {this.state.data.map((val) => (
-              <li>
+              <li key={val[0]}>
                 {val[0]}: {val[1]}
               </li>
             ))}
